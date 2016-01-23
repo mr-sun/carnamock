@@ -4,6 +4,7 @@
 
 #include "MockInfo.h"
 #include <map>
+#include <stdexcept>
 
 namespace carnamock {
 
@@ -47,8 +48,8 @@ namespace carnamock {
          }
 
          static void ShowLog(const void *mockObject)
-         {            
-            std::runtime_error e(mockMap[mockObject].GetLog());
+		 {
+			std::runtime_error e(mockMap[mockObject].GetLog());
             throw e;
          }
 
