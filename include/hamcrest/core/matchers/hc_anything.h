@@ -9,6 +9,8 @@
 #include "hc_matcher.h"
 #endif
 
+#include "TypeTraits.h"
+
 namespace hamcrest {
 
 
@@ -25,7 +27,7 @@ struct anything : public matcher<T>
     */
     explicit anything(const std::string& description = "ANYTHING") : description_m(description) { }
 
-    bool operator()(const T& /*item*/) const { return true; }
+    bool operator()(const carnamock::no_cref<T>::type& /*item*/) const { return true; }
     
     void describe_to(description_t& description) const { description.append_text(description_m); }
 

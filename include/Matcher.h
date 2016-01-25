@@ -54,7 +54,8 @@ template <class Type>
 class Matcher : public IMatcher
 {
 public:
-   typedef typename no_cref<Type>::type T;
+   typedef typename Type T;
+   //typedef typename no_cref<Type>::type T;
 
    virtual ~Matcher() {}
 
@@ -63,9 +64,9 @@ public:
 		ValueHolder<Type> *holder= dynamic_cast<ValueHolder<Type>* >(&value); 
 		return this->operator==(holder->GetValue());
 	}
-   
-	virtual bool operator==(const T &type)= 0;
-	virtual bool operator!=(const T &type)
+
+	virtual bool operator==(const no_cref<T>::type& type)= 0;
+	virtual bool operator!=(const no_cref<T>::type& type)
 	{
 		return !operator==(type);
 	}

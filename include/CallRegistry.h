@@ -73,7 +73,8 @@ template <class ReturnType, class P1>
 class CallRegistry<ReturnType, P1> : public IRegistry
 {
 public:
-   typedef typename no_cref<P1>::type Param1;
+   typedef typename P1 Param1;
+   //typedef typename no_cref<P1>::type Param1;
    typedef FunctionTraits<ReturnType, Param1> RegistryTraits;
 	typedef CallRegistry<ReturnType, P1> Type;
    enum { NrParams= 1};
@@ -105,9 +106,9 @@ public:
 
 			if (action->KnowsThat(params)) {
             if (!RegistryTraits::IsVoidReturn::result) 
-				   return action->Execute(p1);
+				   return action->Execute<Param1>(p1);
             else 
-               action->Execute(p1);
+               action->Execute<Param1>(p1);
 			}
 			continue;
 		}
@@ -122,10 +123,13 @@ template <class ReturnType, class P1, class P2>
 class CallRegistry<ReturnType, P1, P2> : public IRegistry
 {
 public:
-   typedef FunctionTraits<ReturnType, typename no_cref<P1>::type, typename no_cref<P2>::type> RegistryTraits;
+   typedef FunctionTraits<ReturnType, typename P1, typename P2> RegistryTraits;
+   //typedef FunctionTraits<ReturnType, typename no_cref<P1>::type, typename no_cref<P2>::type> RegistryTraits;
 
-   typedef typename no_cref<P1>::type Param1;
-   typedef typename no_cref<P2>::type Param2;
+   typedef typename P1 Param1;
+   typedef typename P2 Param2;
+   //typedef typename no_cref<P1>::type Param1;
+   //typedef typename no_cref<P2>::type Param2;
 
 	enum { NrParams= 2 };
 
@@ -160,10 +164,12 @@ public:
          params.push_back(new ValueHolder<Param2>(p2));
 
 			if (action->KnowsThat(params)) {
-            if (!RegistryTraits::IsVoidReturn::result)
-				   return action->Execute(p1, p2);
+			if (!RegistryTraits::IsVoidReturn::result) {
+				   ReturnType val = action->Execute<Param1, Param2>(p1, p2);
+				   return val;
+			}
             else 
-               action->Execute(p1, p2);
+			   action->Execute<Param1, Param2>(p1, p2);
 			}
 			continue;
 		}
@@ -179,13 +185,22 @@ class CallRegistry<ReturnType, P1, P2, P3> : public IRegistry
 {
 public:
    typedef FunctionTraits<ReturnType
-      , typename no_cref<P1>::type
-      , typename no_cref<P2>::type
-      , typename no_cref<P3>::type> RegistryTraits;
+	  , typename P1
+	  , typename P2
+	  , typename P3> RegistryTraits;
+	  /*
+   typedef FunctionTraits<ReturnType
+	  , typename no_cref<P1>::type
+	  , typename no_cref<P2>::type
+	  , typename no_cref<P3>::type> RegistryTraits;
+	  */
 
-	typedef typename no_cref<P1>::type Param1;
-   typedef typename no_cref<P2>::type Param2;
-	typedef typename no_cref<P3>::type Param3;
+	typedef typename P1 Param1;
+	typedef typename P2 Param2;
+	typedef typename P3 Param3;
+	//typedef typename no_cref<P1>::type Param1;
+	//typedef typename no_cref<P2>::type Param2;
+	//typedef typename no_cref<P3>::type Param3;
 	enum { NrParams= 3 };
 
    typedef CallRegistry<ReturnType, P1, P2, P3> Type;
@@ -225,9 +240,9 @@ public:
 
 			if (action->KnowsThat(params)) {
             if (!RegistryTraits::IsVoidReturn::result)
-				   return action->Execute(p1, p2, p3);
-            else 
-               action->Execute(p1, p2, p3);
+				   return action->Execute<Param1, Param2, Param3>(p1, p2, p3);
+			else
+               action->Execute<Param1, Param2, Param3>(p1, p2, p3);
 			}
 			continue;
 		}
@@ -242,17 +257,28 @@ template <class ReturnType, class P1, class P2, class P3, class P4>
 class CallRegistry<ReturnType, P1, P2, P3, P4> : public IRegistry
 {
 public:
-	typedef typename no_cref<P1>::type Param1;
-   typedef typename no_cref<P2>::type Param2;
-	typedef typename no_cref<P3>::type Param3;
-	typedef typename no_cref<P4>::type Param4;
+	typedef typename P1 Param1;
+   typedef typename P2 Param2;
+	typedef typename P3 Param3;
+	typedef typename P4 Param4;
+	//typedef typename no_cref<P1>::type Param1;
+   //typedef typename no_cref<P2>::type Param2;
+	//typedef typename no_cref<P3>::type Param3;
+	//typedef typename no_cref<P4>::type Param4;
    enum { NrParams= 4 };
 
    typedef FunctionTraits<ReturnType
-      , typename no_cref<P1>::type
-      , typename no_cref<P2>::type
-      , typename no_cref<P3>::type
-      , typename no_cref<P4>::type> RegistryTraits;
+	  , typename P1
+	  , typename P2
+	  , typename P3
+	  , typename P4> RegistryTraits;
+/*
+   typedef FunctionTraits<ReturnType
+	  , typename no_cref<P1>::type
+	  , typename no_cref<P2>::type
+	  , typename no_cref<P3>::type
+	  , typename no_cref<P4>::type> RegistryTraits;
+*/
 
    typedef CallRegistry<ReturnType, P1, P2, P3, P4> Type;
 
@@ -291,9 +317,9 @@ public:
 
 			if (action->KnowsThat(params)) {
             if (!RegistryTraits::IsVoidReturn::result)
-				   return action->Execute(p1, p2, p3, p4);
-            else 
-               action->Execute(p1, p2, p3, p4);
+				   return action->Execute<Param1, Param2, Param3, Param4>(p1, p2, p3, p4);
+			else
+               action->Execute<Param1, Param2, Param3, Param4>(p1, p2, p3, p4);
 			}
 			continue;
 		}

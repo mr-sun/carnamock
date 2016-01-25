@@ -9,6 +9,7 @@
 #define HAMCREST_STD_FUNCTIONAL
 #include <functional>
 #endif
+#include "TypeTraits.h"
 
 namespace hamcrest {
 
@@ -24,11 +25,13 @@ struct matcher : public std::unary_function<T, bool>, self_describing
     virtual ~matcher() { }
     
     /// Evaluates the matcher for argument item
-    virtual bool operator()(const T& item) const = 0;
+    virtual bool operator()(const carnamock::no_cref<T>::type& item) const = 0;
     
     /// Creates a copy of itself
     virtual matcher<T>* copy() const = 0;
 };
+
+
 
 
 // Traits
