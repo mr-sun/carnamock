@@ -45,7 +45,13 @@
    returnType methodName() { \
       MOCK_CONFIGURATIONS(methodName) \
       return carna##methodName.Execute(); \
-   } CallRegistry<returnType> carna##methodName 
+   } CallRegistry<returnType> carna##methodName
+
+#define RETURN_METHOD0_CONST(returnType, methodName) \
+   returnType methodName() const { \
+	  MOCK_CONFIGURATIONS(methodName) \
+	  return carna##methodName.Execute(); \
+   } CallRegistry<returnType> carna##methodName
 
 #define RETURN_METHOD1(returnType, methodName, p1) \
    returnType methodName(p1 p1Value) { \
@@ -62,7 +68,7 @@
 #define RETURN_METHOD3(returnType, methodName, p1, p2, p3) \
    returnType methodName(p1 p1Value, p2 p2Value, p3 p3Value) { \
       MOCK_CONFIGURATIONS(methodName) \
-      return carna#methodName.Execute(p1Value, p2Value, p3Value); \
+      return carna##methodName.Execute(p1Value, p2Value, p3Value); \
    } CallRegistry<returnType, p1, p2, p3> carna##methodName
 
 #define RETURN_METHOD4(returnType, methodName, p1, p2, p3, p4) \
